@@ -20,7 +20,9 @@ This can be done in two ways:
 
 ##### We will create a mysql container using dcoker-compose.
 
-```
+```c
+# docker-compose.yml 
+
 version= '3'
 services:
    jenkins:
@@ -57,3 +59,53 @@ networks:
    
    
 ```
+
+
+ Run the command to bring up all the 3 server\
+ $ docker-compose up -d         /* Why -d: it is detached mode to run the container without killing itself */
+ 
+ 
+ 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Now, all the 3 server are up and running. However we need to install below two server in "remote_user" in order to take back up from the db_host and to upload the file into the aws s3.
+1. mysql     ( to take back-up from db server)
+2. aws cli   ( to upload the file into the AWS S3)
+
+So, let's intall them. :-)
+
+We can nstall them in two ways:
+1. Go inside the  remote-user container and run install command:
+* $ docker exec -it <container_name pr id> bash
+* $ yum install -y mysql   /* yum for censtos and apt for ubuntu: this command will install the mysql client
+2. We can add this installatin process in the docker file itself as below:
+```c
+# Just above the CMD command in the Dockerfile ( remote-user) , add this line to install the mysql client
+
+RUN yum install -y mysql
+CMD /usr/sbin/sshd -D
+```
+Installation of AWS cli:
+1. inside the container command line
+```c
+RUN curl "https://awscli.amazonaws.com/   awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    yum install -y unzip && \
+    unzip awscliv2.zip && \
+    ./aws/install
+  ```
+  
+2. modify in the Dockerfile.
+
+```c  
+# Just above the CMD command in the Dockerfile ( remote-user) , add this line to install the mysql client
+
+RUN curl "https://awscli.amazonaws.com/   awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    yum install -y unzip && \
+    unzip awscliv2.zip && \
+    ./aws/install
+CMD /usr/sbin/sshd -D
+```
+
+
+
+
+
