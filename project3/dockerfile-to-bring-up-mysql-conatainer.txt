@@ -19,7 +19,7 @@ CMD /usr/sbin/sshd -D
 
 ==========================================
 
-In order to generate the remote-key, we have to run below commans in the commmand promp.
+In order to generate the remote-key, we have to run below commans in the commmand prompt.
 
 $ ssh-keygen -f remote-key
 then do 'ENTER' two times.
@@ -27,4 +27,22 @@ then do 'ENTER' two times.
 This will generate 2 files:
 1. remote-key
 2. remote-key.pub
+
+
+=================================================
+*** CODE EXPLAINATION  ***
+line1: use centos7 as base image
+line2: update the base OS
+line3: installation of openssh-server
+line4: adding user as remote-user
+line5: giving passwd as '1234' and setting the passwd as stnadard input so that no need to give manually
+line6: making a directory under /home as '/home/remote_user/.ssh'  in order to save the remote-key.pub puplic key
+line7: giving root full permission on the above directory in order to do adminastration work, like copy files etc.
+line8: copying the remote-key.pub file in the above directory under the name as authorize-key
+line10: change the owner of the directory as remote_user:remote_user as user:group
+line11: give permission on the directory as 600
+line13: running "/usr/sbin/sshd-keygen" since we are creating the ssh-server from the scratch
+line15: run this command to make conatainer alive
+
+=================================================================================================================
  
