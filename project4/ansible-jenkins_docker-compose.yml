@@ -1,0 +1,15 @@
+---
+ version: '3'
+ services:
+   jenkins-ansible:
+      container_name: jenkins-ansible
+      image: jenkins-ansible
+      build: <give the Docker file path>
+      ports:
+        - "8080:8080"
+      volumes: 
+        - "$PWD/jenkins_home:/var/jenkins_home"
+      networks:
+        - net
+ networks:
+   net:
