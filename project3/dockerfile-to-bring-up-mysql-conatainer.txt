@@ -13,4 +13,18 @@ RUN chown remote_user:remote_user -R /home/remote_user/.ssh/authorized_key && \
 RUN /usr/sbin/sshd-keygen
 
 CMD /usr/sbin/sshd -D
+
+
+
+
+==========================================
+
+In order to generate the remote-key, we have to run below commans in the commmand promp.
+
+$ ssh-keygen -f remote-key
+then do 'ENTER' two times.
+
+This will generate 2 files:
+1. remote-key
+2. remote-key.pub
  
